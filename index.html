@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090d1b">
+<title>ABparty</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090d1b;color:#fff;font-family:Arial,sans-serif}
+header{padding:20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #222941}
+.logo{font-size:25px;font-weight:900;color:#a78bfa}
+.logo span{color:#fff}
+.tag{color:#b8c1d9;font-size:12px}
+main{max-width:650px;margin:auto;padding:24px 18px}
+.hero{padding:25px 20px;border-radius:24px;background:linear-gradient(135deg,#27205c,#111b3d 65%,#152a40);border:1px solid #34365f}
+.pill{display:inline-block;background:#ffffff18;padding:7px 11px;border-radius:20px;color:#d8ccff;font-size:12px}
+h1{font-size:34px;line-height:1.12;margin:18px 0 10px}
+p{color:#b9c2d8;line-height:1.5}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+button{border:0;border-radius:12px;padding:14px 10px;font-weight:bold;font-size:14px;cursor:pointer}
+.primary{background:#8b5cf6;color:white}
+.secondary{background:#202942;color:#fff;border:1px solid #39435f}
+.section-title{font-size:19px;margin:28px 0 14px}
+.card{padding:17px;background:#121a2d;border:1px solid #27314b;border-radius:17px;margin-bottom:12px}
+.card h3{margin:0 0 7px;font-size:16px}
+.card p{font-size:13px;margin:0 0 14px}
+.field{width:100%;padding:14px;border-radius:11px;border:1px solid #39435f;background:#0a1020;color:#fff;font-size:15px;margin:8px 0 12px;outline:none}
+.field:focus{border-color:#a78bfa}
+.full{width:100%}
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.service{background:#121a2d;border:1px solid #27314b;padding:16px 5px;border-radius:15px;text-align:center;color:white;text-decoration:none;font-size:13px}
+.service span{display:block;font-size:25px;margin-bottom:9px}
+footer{text-align:center;color:#68748f;font-size:12px;padding:28px 10px}
+#message{font-size:13px;color:#c4b5fd;margin-top:12px;overflow-wrap:anywhere}
+@media(max-width:360px){h1{font-size:29px}.actions{grid-template-columns:1fr}.services{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">AB<span>party</span></div>
+  <div class="tag">WATCH TOGETHER ✦</div>
+</header>
+<main>
+  <section class="hero">
+    <span class="pill">✦ YOUR FRIENDS. YOUR PARTY.</span>
+    <h1>Watch together.<br>Have more fun.</h1>
+    <p>Create a room, invite your friends and enjoy watching together.</p>
+    <div class="actions">
+      <button class="primary" onclick="showCreate()">＋ Create Room</button>
+      <button class="secondary" onclick="showJoin()">↗ Join Room</button>
+    </div>
+  </section>
+
+  <section id="roomForm" class="card" style="display:none;margin-top:18px">
+    <h3 id="formTitle">Create your room</h3>
+    <p id="formDesc">Choose a name for your party.</p>
+    <input id="roomName" class="field" placeholder="Enter your name" maxlength="30">
+    <button id="roomAction" class="primary full" onclick="createRoom()">Create Room</button>
+    <div id="message"></div>
+  </section>
+
+  <h2 class="section-title">Explore & Watch</h2>
+  <div class="services">
+    <a class="service" href="https://www.youtube.com/" target="_blank" rel="noopener"><span>▶️</span>YouTube</a>
+    <a class="service" href="https://www.netflix.com/" target="_blank" rel="noopener"><span>🎬</span>Netflix</a>
+    <a class="service" href="https://www.hotstar.com/" target="_blank" rel="noopener"><span>✨</span>JioHotstar</a>
+    <a class="service" href="https://www.jiotv.com/" target="_blank" rel="noopener"><span>📺</span>JioTV</a>
+    <a class="service" href="https://www.crunchyroll.com/" target="_blank" rel="noopener"><span>🍥</span>Crunchyroll</a>
+    <a class="service" href="https://www.google.com/chrome/" target="_blank" rel="noopener"><span>🌐</span>Chrome</a>
+  </div>
+
+  <h2 class="section-title">Your Watch Party</h2>
+  <div class="card">
+    <h3>🎉 Friends, one room</h3>
+    <p>Room sharing and synchronized playback will need the next setup steps.</p>
+  </div>
+</main>
+<footer>ABparty · Made for watching together</footer>
+<script>
+let mode="create";
+function showCreate(){
+ mode="create";
+ document.getElementById("roomForm").style.display="block";
+ document.getElementById("formTitle").textContent="Create your room";
+ document.getElementById("formDesc").textContent="Choose a name for your party.";
+ document.getElementById("roomName").placeholder="Enter your name";
+ document.getElementById("roomAction").textContent="Create Room";
+ document.getElementById("roomAction").onclick=createRoom;
+ document.getElementById("message").textContent="";
+ document.getElementById("roomForm").scrollIntoView({behavior:"smooth"});
+}
+function showJoin(){
+ mode="join";
+ document.getElementById("roomForm").style.display="block";
+ document.getElementById("formTitle").textContent="Join a room";
+ document.getElementById("formDesc").textContent="Enter the room code.";
+ document.getElementById("roomName").placeholder="Room code";
+ document.getElementById("roomAction").textContent="Join Room";
+ document.getElementById("roomAction").onclick=joinRoom;
+ document.getElementById("message").textContent="";
+ document.getElementById("roomForm").scrollIntoView({behavior:"smooth"});
+}
+function createRoom(){
+ const name=document.getElementById("roomName").value.trim();
+ if(!name){document.getElementById("message").textContent="Please enter your name first.";return}
+ const code="AB"+Math.random().toString(36).substring(2,7).toUpperCase();
+ document.getElementById("message").textContent="Demo room created: "+code+". Online room sharing will be connected later.";
+}
+function joinRoom(){
+ const code=document.getElementById("roomName").value.trim();
+ document.getElementById("message").textContent=code?"Room joining will work after online rooms are configured. Entered code: "+code:"Please enter a room code.";
+}
+</script>
+</body>
+</html>
